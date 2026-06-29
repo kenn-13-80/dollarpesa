@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Card, Button, Input, Select, DatePicker, Table, Space, Statistic, Row, Col, Loading, Message } from '@deriv-com/ui';
+import { Card, Button, Select, Table, Space, Statistic, Row, Col, Loading, Message } from '@deriv-com/ui';
 import { localize } from '@deriv-com/translations';
 import './analysis-tool.scss';
 
@@ -34,8 +34,6 @@ const AnalysisTool: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [filterSymbol, setFilterSymbol] = useState<string>('');
     const [filterStatus, setFilterStatus] = useState<string>('');
-    const [startDate, setStartDate] = useState<string>('');
-    const [endDate, setEndDate] = useState<string>('');
     const [metrics, setMetrics] = useState<AnalysisMetrics | null>(null);
 
     const calculateMetrics = useCallback((tradesList: AnalysisData[]): AnalysisMetrics => {
@@ -89,19 +87,9 @@ const AnalysisTool: React.FC = () => {
             filtered = filtered.filter(trade => trade.status === filterStatus);
         }
 
-        if (startDate) {
-            const start = new Date(startDate);
-            filtered = filtered.filter(trade => new Date(trade.date) >= start);
-        }
-
-        if (endDate) {
-            const end = new Date(endDate);
-            filtered = filtered.filter(trade => new Date(trade.date) <= end);
-        }
-
         setFilteredTrades(filtered);
         setMetrics(calculateMetrics(filtered));
-    }, [trades, filterSymbol, filterStatus, startDate, endDate, calculateMetrics]);
+    }, [trades, filterSymbol, filterStatus, calculateMetrics]);
 
     const loadSampleData = useCallback(async () => {
         setIsLoading(true);
@@ -257,18 +245,22 @@ const AnalysisTool: React.FC = () => {
                     <div className='filters-section'>
                         <Row gutter={[16, 16]}>
                             <Col xs={24} sm={12} md={6}>
-                                <Select
-                                    label={localize('Symbol')}
-                                    value={filterSymbol}
-                                    onChange={(e) => setFilterSymbol(e.target.value)}
-                                />
+                                <label>{localize('Symbol')}</label>
+                                <select value={filterSymbol} onChange={(e) => setFilterSymbol(e.target.value)} className='filter-input'>
+                                    <option value=''>{localize('All Symbols')}</option>
+                                    <option value='EUR/USD'>EUR/USD</option>
+                                    <option value='GBP/USD'>GBP/USD</option>
+                                    <option value='USD/JPY'>USD/JPY</option>
+                                </select>
                             </Col>
                             <Col xs={24} sm={12} md={6}>
-                                <Select
-                                    label={localize('Status')}
-                                    value={filterStatus}
-                                    onChange={(e) => setFilterStatus(e.target.value)}
-                                />
+                                <label>{localize('Status')}</label>
+                                <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className='filter-input'>
+                                    <option value=''>{localize('All Status')}</option>
+                                    <option value='won'>{localize('Won')}</option>
+                                    <option value='lost'>{localize('Lost')}</option>
+                                    <option value='pending'>{localize('Pending')}</option>
+                                </select>
                             </Col>
                         </Row>
                         <Row gutter={[16, 16]} style={{ marginTop: '10px' }}>
@@ -282,8 +274,6 @@ const AnalysisTool: React.FC = () => {
                                     onClick={() => {
                                         setFilterSymbol('');
                                         setFilterStatus('');
-                                        setStartDate('');
-                                        setEndDate('');
                                         setFilteredTrades(trades);
                                         setMetrics(calculateMetrics(trades));
                                     }}

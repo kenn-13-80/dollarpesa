@@ -24,7 +24,7 @@ export const MenuItems = observer(() => {
                 className='app-header__menu'
                 onClick={handleAnalysisClick}
             >
-                <LegacyChartLineIcon iconSize='xs' className='mr-8' />
+                <LegacyChartLineIcon iconSize='xs' />
                 <Text>{localize('Analysis')}</Text>
             </MenuItem>
         </>
@@ -32,16 +32,13 @@ export const MenuItems = observer(() => {
 });
 
 export const TradershubLink = observer(() => {
-    // No default Traders Hub link - add your custom navigation here if needed
     return null;
 });
 
-// Create a namespace for MenuItems to include TradershubLink
 type MenuItemsType = typeof MenuItems & {
     TradershubLink: typeof TradershubLink;
 };
 
-// Assign TradershubLink to MenuItems
 (MenuItems as MenuItemsType).TradershubLink = TradershubLink;
 
 export default MenuItems as MenuItemsType;
