@@ -1,46 +1,34 @@
-// ========================================
-// MENU ITEMS PLACEHOLDER FOR WHITE-LABELING
-// ========================================
-//
-// This component has been simplified for white-labeling.
-// Third-party developers can add custom menu items here.
-//
-// EXAMPLE USAGE:
-// --------------
-// import { observer } from 'mobx-react-lite';
-// import { useStore } from '@/hooks/useStore';
-// import { useTranslations } from '@deriv-com/translations';
-// import { MenuItem, Text } from '@deriv-com/ui';
-//
-// export const MenuItems = observer(() => {
-//     const { localize } = useTranslations();
-//     const store = useStore();
-//     const is_logged_in = store?.client?.is_logged_in ?? false;
-//
-//     if (!is_logged_in) return null;
-//
-//     return (
-//         <>
-//             <MenuItem
-//                 as='a'
-//                 className='app-header__menu'
-//                 href='/your-page'
-//                 leftComponent={YourIcon}
-//             >
-//                 <Text>{localize('Your Menu Item')}</Text>
-//             </MenuItem>
-//         </>
-//     );
-// });
-//
-// For mobile menu items, see:
-// src/components/layout/header/mobile-menu/use-mobile-menu-config.tsx
-
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
+import { useStore } from '@/hooks/useStore';
+import { useTranslations } from '@deriv-com/translations';
+import { MenuItem, Text } from '@deriv-com/ui';
+import { LegacyChartLineIcon } from '@deriv/quill-icons/Legacy';
 
 export const MenuItems = observer(() => {
-    // No menu items by default - add your custom menu items here
-    return null;
+    const { localize } = useTranslations();
+    const store = useStore();
+    const navigate = useNavigate();
+    const is_logged_in = store?.client?.is_logged_in ?? false;
+
+    const handleAnalysisClick = () => {
+        navigate('/analysis');
+    };
+
+    if (!is_logged_in) return null;
+
+    return (
+        <>
+            <MenuItem
+                as='button'
+                className='app-header__menu'
+                onClick={handleAnalysisClick}
+            >
+                <LegacyChartLineIcon iconSize='xs' className='mr-8' />
+                <Text>{localize('Analysis')}</Text>
+            </MenuItem>
+        </>
+    );
 });
 
 export const TradershubLink = observer(() => {
@@ -57,4 +45,3 @@ type MenuItemsType = typeof MenuItems & {
 (MenuItems as MenuItemsType).TradershubLink = TradershubLink;
 
 export default MenuItems as MenuItemsType;
-// [/AI]
