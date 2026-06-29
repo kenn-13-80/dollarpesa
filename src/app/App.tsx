@@ -16,6 +16,7 @@ import './app-root.scss';
 
 const Layout = lazy(() => import('../components/layout'));
 const AppRoot = lazy(() => import('./app-root'));
+const AnalysisTool = lazy(() => import('../components/analysis-tool'));
 
 /**
  * Component wrapper to handle language URL parameter
@@ -58,6 +59,15 @@ const router = createBrowserRouter(
             <Route index element={<AppRoot />} />
             {/* App Builder embeds the template at /preview — render the same app shell */}
             <Route path='preview' element={<AppRoot />} />
+            {/* Analysis Tool Route */}
+            <Route
+                path='analysis'
+                element={
+                    <Suspense fallback={<ChunkLoader message={localize('Loading analysis tool...')} />}>
+                        <AnalysisTool />
+                    </Suspense>
+                }
+            />
         </Route>
     ),
     { basename: routerBasename }

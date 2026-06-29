@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { standalone_routes } from '@/components/shared';
-import { LegacyHomeNewIcon as TradershubLogo } from '@deriv/quill-icons/Legacy';
+import { LegacyHomeNewIcon as TradershubLogo, LegacyChartLineIcon as AnalysisIcon } from '@deriv/quill-icons/Legacy';
 import {
     DerivProductBrandLightDerivBotLogoWordmarkIcon as DerivBotLogo,
     DerivProductBrandLightDerivTraderLogoWordmarkIcon as DerivTraderLogo,
@@ -56,7 +56,7 @@ export const platformsConfig: PlatformsConfig[] = [
     {
         active: false,
         buttonIcon: <SmarttraderLogo height={24} width={115} />,
-        description: localize('Trade the world’s markets with our popular user-friendly platform.'),
+        description: localize('Trade the world\'s markets with our popular user-friendly platform.'),
         href: standalone_routes.smarttrader,
         icon: <SmarttraderLogo height={32} width={153} />,
         showInEU: false,
@@ -71,20 +71,16 @@ export const TRADERS_HUB_LINK_CONFIG = {
 };
 
 // ========================================
-// MENU ITEMS CONFIGURATION PLACEHOLDER
+// MENU ITEMS CONFIGURATION
 // ========================================
 //
 // Add your custom menu items here for the desktop header.
-//
-// EXAMPLE:
-// export const MenuItems: MenuItemsConfig[] = [
-//     {
-//         as: 'a',
-//         href: '/your-page',
-//         icon: <YourIcon />,
-//         label: localize('Your Menu Item'),
-//     },
-// ];
-//
-// Empty by default for white-labeling
-export const MenuItems: MenuItemsConfig[] = [];
+// Includes the Analysis Tool
+export const MenuItems: MenuItemsConfig[] = [
+    {
+        as: 'a',
+        href: '/analysis',
+        icon: <AnalysisIcon iconSize='xs' />,
+        label: localize('Analysis'),
+    },
+];
